@@ -8,20 +8,18 @@
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         // MARK: Start Monitoring For Network Reachability Changes.
+         // Start Monitoring For Network Reachability Changes.
         SSASwiftReachability.sharedManager?.startMonitoring()
         
-        // MARK: Listen For Network Reachability Changes
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityStatusChanged:", name: reachabilityDidChangeNotification, object: nil)
+        // Listen For Network Reachability Changes
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityStatusChanged:", name: SSAReachabilityDidChangeNotification, object: nil)
     }
     
     func reachabilityStatusChanged(notification: NSNotification) {
-        if let info = notification.userInfo {
-
-            if let s = info[reachabilityNotificationStatusItem] {
-                print(s.description)
-            }
-        }
+        guard let userInfo = notification.userInfo else { return }
+        guard let statusItem = userInfo[SSAReachabilityNotificationStatusItem] as? String else { return }
+                
+        print(statusItem)
     }
     
 ```
